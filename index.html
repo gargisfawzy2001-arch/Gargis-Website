@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة اليوم - اجتماع بولس الرسول</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            /* خلفية ستر الهيكل المخملي العنابي المطرز بالذهب */
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45)),
+                url('velvet_bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #2b080e;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        /* الكارت الشفاف الفاخر بتأثير Glassmorphism */
+        .container {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.35);
+            max-width: 480px;
+            width: 100%;
+            padding: 30px 24px;
+            text-align: center;
+            border: 2px solid rgba(212, 175, 55, 0.8);
+            position: relative;
+            
+            /* وقت الظهور بمرونة وسلاسة بعد 3 ثوانٍ */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease, transform 1.2s ease, visibility 1.2s ease;
+        }
+
+        .container.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* صلبان ذهبية أرثوذكسية في الأركان */
+        .container::before {
+            content: "✟";
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            color: #d4af37;
+            font-size: 18px;
+        }
+        .container::after {
+            content: "✟";
+            position: absolute;
+            top: 12px;
+            left: 18px;
+            color: #d4af37;
+            font-size: 18px;
+        }
+
+        /* تنسيق ومسافات الشعارين */
+        .logos-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        .logo-img {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #d4af37;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            background-color: #000;
+        }
+
+        .header-title {
+            color: #2b080e;
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
+        }
+        .header-subtitle {
+            color: #526071;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(203, 213, 225, 0.9);
+            border-radius: 14px;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.92);
+            color: #1e293b;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #d4af37;
+            background-color: #ffffff;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #4a0d18 0%, #2b080e 100%);
+            color: #ffffff;
+            border: 1.5px solid #d4af37;
+            padding: 14px 25px;
+            font-size: 16.5px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(59, 10, 19, 0.45);
+        }
+        button:hover {
+            background: linear-gradient(135deg, #611220 0%, #3b0a13 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(59, 10, 19, 0.6);
+        }
+
+        /* صندوق ظهور الآية */
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(253, 251, 247, 0.95);
+            border: 1px solid #e2e8f0;
+            border-right: 5px solid #d4af37;
+            border-radius: 14px;
+            animation: fadeIn 0.6s ease-in-out;
+            text-align: center;
+            box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.08);
+        }
+        .personal-intro {
+            font-size: 18px;
+            color: #3b0a13;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .verse-text {
+            font-size: 19px;
+            line-height: 1.8;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px dashed #d4af37;
+        }
+        .verse-ref {
+            font-size: 13.5px;
+            color: #64748b;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .footer-note {
+            margin-top: 22px;
+            font-size: 13px;
+            color: #526071;
+            font-weight: 600;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainCard">
+    <!-- الشعارين الكنسيين -->
+    <div class="logos-header">
+        <img src="church_logo.jpg" alt="شعار كنيسة القديس يوسف النجار" class="logo-img">
+        <img src="paul_logo.jpg" alt="شعار اجتماع بولس الرسول" class="logo-img">
+    </div>
+
+    <div class="header-title">اجتماع بولس الرسول</div>
+    <div class="header-subtitle">كنيسة القديس يوسف النجار - منطي</div>
+    <hr style="border: 0; height: 1px; background: rgba(212, 175, 55, 0.4); margin-bottom: 20px;">
+
+    <div id="form-section">
+        <p style="font-size: 15.5px; color: #2b080e; margin-bottom: 16px; font-weight: 600;">اكتب اسمك عشان تستلم رسالتك الخاصة النهاردة:</p>
+        <div class="input-group">
+            <input type="text" id="userName" placeholder="اكتب اسمك هنا..." autocomplete="off">
+        </div>
+        <button onclick="generateVerse()">افتح رسالتك ✨</button>
+    </div>
+
+    <div id="result" class="result-box">
+        <div class="personal-intro" id="introDisplay"></div>
+        <div class="verse-text" id="verseDisplay"></div>
+        <div class="verse-ref" id="refDisplay"></div>
+        <button onclick="resetForm()" style="margin-top: 18px; background: #64748b; font-size: 14px; padding: 10px; border: none;">استلم آية تانية</button>
+    </div>
+
+    <div class="footer-note">ربنا يبارك حياتك ويفرّح قلبك دائماً! ✨</div>
+</div>
+
+<script>
+    // ظهور النافذة بعد 3 ثوانٍ
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById('mainCard').classList.add('show');
+        }, 3000);
+    };
+
+    const verses = [
+        { intro: "فَكَانَ الرَّبُّ مَعَ [الاسم]، فَكَانَ رَجُلاً نَاجِحاً:", verse: "«فَكَانَ الرَّبُّ مَعَ يُوسُفَ فَكَانَ رَجُلاً نَاجِحاً»", ref: "(سفر التكوين 39: 2)" },
+        { intro: "ربنا بيقلك يا [الاسم]:", verse: "«لاَ تَخَفْ لأَنِّي مَعَكَ. لاَ تَتَلَفَّتْ لأَنِّي إِلهُكَ. قَدْ قَوَّيْتُكَ وَأَعَنْتُكَ وَعَضَدْتُكَ بِيَمِينِ بِرِّي.»", ref: "(سفر أشعياء 41: 10)" },
+        { intro: "ثق يا [الاسم]:", verse: "«أَسْتَطِيعُ كُلَّ شَيْءٍ فِي الْمَسِيحِ الَّذِي يُقَوِّينِي.»", ref: "(رسالة بولس الرسول إلى أهل فيلبي 4: 13)" },
+        { intro: "يا [الاسم]:", verse: "«إِلهُ السَّمَاءِ يَنصُرُنَا، وَنَحْنُ عَبِيدُهُ نَقُومُ وَنَبْنِي.»", ref: "(سفر نحميا 2: 20)" },
+        { intro: "اطمن يا [الاسم]:", verse: "«لاَ أَهْمَلُكَ وَلاَ أَتْرُكُكَ. تَشَدَّدْ وَتَشَجَّعْ.»", ref: "(سفر يشوع 1: 5-6)" },
+        { intro: "ربنا بيقلك يا [الاسم]:", verse: "«لأَنِّي عَرَفْتُ الأَفْكَارَ الَّتِي أَنَا مُفَكِّرٌ بِهَا عَنْكُمْ، يَقُولُ الرَّبُّ، أَفْكَارَ سَلاَمٍ لاَ شَرّ، لأُعْطِيَكُمْ آخِرَةً وَرَجَاءً.»", ref: "(سفر إرميا 29: 11)" },
+        { intro: "افرح يا [الاسم]:", verse: "«عَظَّمَ الرَّبُّ الْعَمَلَ مَعَنَا، وَصِرْنَا فَرِحِينَ.»", ref: "(سفر المزامير 126: 3)" },
+        { intro: "تعال يا [الاسم]:", verse: "«تَعَالَوْا إِلَيَّ يَا جَمِيعَ الْمُتْعَبِينَ وَالثَّقِيلِي الأَحْمَالِ، وَأَنَا أُرِيحُكُمْ.»", ref: "(إنجيل متى 11: 28)" },
+        { intro: "ثق يا [الاسم]:", verse: "«سَلاَمًا أَتْرُكُ لَكُمْ. سَلاَمِي أُعْطِيكُمْ... لاَ تَضْطَرِبْ قُلُوبُكُمْ وَلاَ تَخَرْ.»", ref: "(إنجيل يوحنا 14: 27)" },
+        { intro: "يا [الاسم]:", verse: "«سِرَاجٌ لِرِجْلِي كَلاَمُكَ وَنُورٌ لِسَبِيلِي.»", ref: "(سفر المزامير 119: 105)" },
+        { intro: "ربنا بيقلك يا [الاسم]:", verse: "«مَحَبَّةً أَبَدِيَّةً أَحْبَبْتُكَ، مِنْ أَجْلِ ذلِكِ إِدَامَتُ لَكَ الرَّحْمَةَ.»", ref: "(سفر إرميا 31: 3)" },
+        { intro: "افتكر يا [الاسم]:", verse: "«هُوَذَا عَلَى كَفَّيَّ نَقَشْتُكِ. أَسْوَارُكِ أَمَامِي دَائِمًا.»", ref: "(سفر أشعياء 49: 16)" },
+        { intro: "اطمن يا [الاسم]:", verse: "«وَهَا أَنَا مَعَكُمْ كُلَّ الأَيَّامِ إِلَى انْقِضَاءِ الدَّهْرِ.»", ref: "(إنجيل متى 28: 20)" },
+        { intro: "يا [الاسم]:", verse: "«الرَّبُّ نُورِي وَخَلاَصِي، مِمَّنْ أَخَافُ؟ الرَّبُّ حِصْنُ حَيَاتِي، مِمَّنْ أَرِعُبُ؟»", ref: "(سفر المزامير 27: 1)" },
+        { intro: "ربنا بيقلك يا [الاسم]:", verse: "«تَمَسَّكْتُ بِيَمِينِي. بِرَأْيِكَ تَهْدِينِي، وَبَعْدُ إِلَى مَجْدٍ تَأْخُذُنِي.»", ref: "(سفر المزامير 73: 23-24)" }
+    ];
+
+    function generateVerse() {
+        const nameInput = document.getElementById('userName').value.trim();
+        if (nameInput === "") {
+            alert("من فضلك اكتب اسمك الأول على الأقل 😊");
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * verses.length);
+        const selectedVerse = verses[randomIndex];
+
+        const personalizedIntro = selectedVerse.intro.replace(/\[الاسم\]/g, nameInput);
+
+        document.getElementById('introDisplay').innerText = personalizedIntro;
+        document.getElementById('verseDisplay').innerText = selectedVerse.verse;
+        document.getElementById('refDisplay').innerText = selectedVerse.ref;
+
+        document.getElementById('form-section').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+    }
+
+    function resetForm() {
+        document.getElementById('mainCard').classList.remove('show');
+        setTimeout(() => {
+            document.getElementById('form-section').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('userName').value = '';
+            document.getElementById('mainCard').classList.add('show');
+        }, 400);
+    }
+</script>
+
+</body>
+</html>
